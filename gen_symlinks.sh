@@ -1,6 +1,11 @@
 #!/bin/zsh
 
-TGT_DIR = $1
+TGT_DIR=$1
+
+if [[ ! -d $TGT_DIR ]]; then
+  echo "ERROR: '$TGT_DIR' is not a directory!"
+  exit 1
+fi
 
 ln -s `pwd`/fasdrc $TGT_DIR/.fasdrc
 ln -s `pwd`/gitconfig $TGT_DIR/.gitconfig
