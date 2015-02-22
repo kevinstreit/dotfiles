@@ -1,0 +1,54 @@
+#!/bin/zsh
+
+if [ -z $1 ]; then
+	echo "Usage: $0 interval [number of lines]"
+	exit 1
+else
+	INTERVAL=$1
+fi
+
+NUM_LINES=${2:-10}
+
+calc_lines() {
+    ACTIVE_USR_LINES=$(($user_load*$NUM_LINES/100))
+    ACTIVE_LINES=$(($cpu_util*$NUM_LINES/100))
+
+	PLOT=""
+	for (( i = 0; i < $NUM_LINES; i++ )); do
+        if (( $i < $ACTIVE_USR_LINES )); then
+			PLOT=${PLOT}"="
+        elif (( $i < $ACTIVE_LINES )); then
+			PLOT=${PLOT}"-"
+        else
+			PLOT=${PLOT}" "
+		fi
+	done
+}
+
+if [[ $OSTYPE =~ darwin* ]]; then
+	cpu_info=$(iostat -n0 -c2 -w${INTERVAL} | tail -n1)
+	CPU=${${=cpu_info}:0:3}
+
+	mem_info=$(vm_stat)
+	WIRED=${${=mem_info}:24:1}
+	ACTIVE=${${=mem_info}:14:1}
+	INACTIVE=${${=mem_info}:17:1}
+	SPECULATIVE=${${=mem_info}:20:1}
+	FREE=${${=mem_info}:11:1}
+
+	TOTAL_MEM=$(( ($WIRED + $ACTIVE + $INACTIVE + $SPECULATIVE + $FREE) * 4096 / 1024 / 1024 ))
+	USED_MEM=$(( ($WIRED + $ACTIVE) * 4096 / 1024 / 1024 ))
+elif [[ $OSTYPE =~ linux* ]]; then
+	cpu_info=$(vmstat ${INTERVAL} 2 | tail -n1)
+	CPU=${${=cpu_info}:12:3}
+
+	mem_info=($(free -m))
+	TOTAL_MEM=${${=mem_info}:7:1}
+	USED_MEM=${${=mem_info}:8:1}
+fi
+
+user_load=${${=CPU}:0:1}
+sys_load=${${=CPU}:1:1}
+cpu_util=$(($user_load+$sys_load))
+calc_lines
+echo "${USED_MEM%.*}/${TOTAL_MEM%.*}MB [${PLOT}] ${cpu_util}%"

@@ -1,0 +1,10 @@
+smbsrc=~/Work/Sambamba/
+smbbin=/var/build/sambamba/
+smbtd=/var/build/sambamba-testdata/
+smbcache=~/.sambamba/cache/
+
+alias clearsmbcache='rm -rf ~/.sambamba/cache/*'
+
+llvmsrc=~/Work/LLVM-Sambamba/
+llvmbin=/var/build/llvm/
+

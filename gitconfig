@@ -1,0 +1,30 @@
+[user]
+	name = Kevin Streit
+	email = streit@cs.uni-saarland.de
+	signingkey = 21344F71
+[color]
+	ui = auto
+[core]
+	excludesfile = ~/.gitignore
+	whitespace = blank-at-eol,space-before-tab,blank-at-eof
+[branch]
+	autosetuprebase = always
+[merge]
+	tool = vimfugitive
+  conflictstyle = diff3
+[diff]
+	tool = vimdiff
+[push]
+	default = current
+[mergetool]
+	keepBackup = false
+	keepTemporaries = false
+[mergetool "diffconflicts"]
+	cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+	trustExitCode = true
+	keepBackup = false
+[mergetool "vimfugitive"]
+	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
+[rerere]
+	enabled = true
+	autoupdate = true
