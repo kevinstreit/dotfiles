@@ -60,8 +60,6 @@ if which fasd >/dev/null 2>&1; then
   }
 fi
 
-alias _='sudo'
-
 if which tmux >/dev/null 2>&1; then
   case $- in *i*)
     if [ -z "$TMUX" ]; then exec tmux; fi
