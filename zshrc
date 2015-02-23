@@ -2,10 +2,6 @@ if [[ -s "$HOME/.zprezto/init.zsh" ]]; then
   source "$HOME/.zprezto/init.zsh"
 fi
 
-if [[ -f ~/.zshsambamba ]]; then
-  source ~/.zshsambamba
-fi
-
 ulimit -s unlimited
 
 setopt inc_append_history
@@ -75,3 +71,4 @@ if [[ -n $TMUX ]]; then
 fi
 
 source /usr/share/doc/pkgfile/command-not-found.zsh
+
