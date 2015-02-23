@@ -100,7 +100,7 @@ if &t_Co > 2 || has("gui_running")
 
 	set hlsearch
 	set background=dark
-  colorscheme mustang
+  silent! colorscheme mustang
 endif
 map <leader>rw :%s/\s\+$//g<CR>
 
