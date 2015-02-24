@@ -63,8 +63,6 @@ if which tmux >/dev/null 2>&1; then
   esac
 fi
 
-echo LALA $-
-
 if [[ -n $TMUX ]]; then
   alias updateEnv="tmux show-environment | sed 's/^\([^-].*=\)\(.*\)/export \1\"\2\"/;s/^-/unset /' | source /dev/stdin"
   alias ue=updateEnv
